@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RIOT CARNIVAL - EXTRA SPICY v24</title>
+    <title>RIOT CARNIVAL - EXTRA SPICY v27</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Zen+Kaku+Gothic+New:wght@700;900&family=Mochiy+Pop+P+One&family=Outfit:wght@800&family=Reenie+Beanie&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Zen+Kaku+Gothic+New:wght@700;900&family=Zen+Old+Mincho:wght@700;900&family=Mochiy+Pop+P+One&family=Outfit:wght@800&family=Reenie+Beanie&display=swap" rel="stylesheet">
     <style>
         /* --- CORE SETTINGS --- */
         :root {
@@ -33,7 +33,7 @@
             --text-glow: 4px 4px 0px #fff, 0px 0px 20px var(--spicy-red);
             
             /* Image Shadow (Day) */
-            --img-drop-shadow: drop-shadow(2px 4px 6px rgba(0,0,0,0.5));
+            --img-drop-shadow: drop-shadow(4px 8px 10px rgba(0,0,0,0.6));
         }
 
         /* NIGHT MODE */
@@ -61,7 +61,7 @@
             --text-glow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #FF00FF, 0 0 30px #FF00FF, 0 0 40px #FF00FF;
             
             /* Image Shadow (Night Glow) */
-            --img-drop-shadow: drop-shadow(0 0 10px rgba(255, 255, 0, 0.6));
+            --img-drop-shadow: drop-shadow(0 0 15px rgba(255, 255, 0, 0.5));
         }
 
         body {
@@ -174,6 +174,44 @@
         }
         .animate-shiver { animation: shiver 0.2s infinite linear; }
 
+        /* --- MENU TITLE IMAGE ANIMATION (TWIST) --- */
+        /* Y軸回転でねじれる動き */
+        @keyframes menu-twist {
+            0% { transform: rotate(2deg) rotateY(20deg); }
+            50% { transform: rotate(2deg) rotateY(-20deg); }
+            100% { transform: rotate(2deg) rotateY(20deg); }
+        }
+
+        .menu-title-container {
+            perspective: 800px; /* 3D遠近感の設定 */
+            margin-top: -30px; 
+            margin-bottom: 20px;
+            z-index: 20;
+        }
+        @media (max-width: 768px) {
+            .menu-title-container {
+                margin-top: -20px;
+                margin-bottom: 10px;
+            }
+        }
+
+        .menu-title-img {
+            height: 400px; /* PC */
+            width: auto;
+            transition: filter 0.5s ease;
+            filter: var(--img-drop-shadow);
+            
+            /* 3D Twist Animation */
+            transform-origin: center center;
+            /* ベースの角度(2deg)を保ちつつ、Y軸でパタパタする */
+            animation: menu-twist 6s ease-in-out infinite; 
+        }
+        @media (max-width: 768px) {
+            .menu-title-img {
+                height: 280px; /* Mobile */
+            }
+        }
+
         /* --- FESTIVAL TITLE --- */
         .festival-red-text {
             color: var(--spicy-red);
@@ -194,19 +232,6 @@
         /* --- PLAYFUL TEXT --- */
         .playful-char { display: inline-block; transition: transform 0.2s ease; }
         .playful-char:hover { transform: translateY(-5px) rotate(0deg) !important; color: var(--spicy-red); text-shadow: 0 0 10px var(--spicy-red); }
-
-        /* --- MENU TITLE IMAGE --- */
-        .menu-title-img {
-            height: 160px; /* PC default */
-            width: auto;
-            transition: filter 0.5s ease;
-            filter: var(--img-drop-shadow);
-        }
-        @media (max-width: 768px) {
-            .menu-title-img {
-                height: 120px; /* Mobile */
-            }
-        }
 
         /* --- CARDS --- */
         .spicy-border {
@@ -270,7 +295,7 @@
     <main class="container mx-auto pt-28 md:pt-36 relative z-10">
 
         <!-- HERO SECTION -->
-        <section class="relative px-2 mb-24 flex flex-col items-center text-center">
+        <section class="relative px-2 mb-12 flex flex-col items-center text-center">
             <div class="relative w-full mb-8">
                 <h1 class="font-anton text-[20vw] md:text-[13rem] leading-[0.8] tracking-tighter festival-red-text relative z-10" data-text="RIOT CARNIVAL">RIOT<br>CARNIVAL</h1>
             </div>
@@ -287,10 +312,11 @@
 
         <!-- MENU SECTION -->
         <section class="relative py-4 w-full">
-            <div class="container mx-auto px-4 mb-10 flex flex-col items-center">
-                <div class="relative">
-                    <!-- REPLACED: Image Title -->
-                    <img src="Today.PNG" alt="本日のお品書き" class="menu-title-img transform rotate-2">
+            <div class="container mx-auto px-4 mb-2 flex flex-col items-center">
+                <!-- 3D Perspective Container -->
+                <div class="relative menu-title-container">
+                    <!-- IMAGE: Today.PNG with TWIST Animation -->
+                    <img src="Today.PNG" alt="本日のお品書き" class="menu-title-img">
                 </div>
             </div>
 
