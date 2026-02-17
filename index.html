@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RIOT CARNIVAL - EXTRA SPICY v31</title>
+    <title>RIOT CARNIVAL - EXTRA SPICY v32</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Zen+Kaku+Gothic+New:wght@700;900&family=Zen+Old+Mincho:wght@700;900&family=Mochiy+Pop+P+One&family=Outfit:wght@800&family=Reenie+Beanie&display=swap" rel="stylesheet">
     <style>
@@ -314,9 +314,9 @@
                 </div>
             </div>
 
-            <!-- ADDED: snap-x snap-mandatory for scroll snapping behavior -->
+            <!-- Scroll Container -->
             <div id="scrollContainer" class="flex gap-6 overflow-x-auto no-scrollbar px-6 pb-12 w-full scroll-smooth snap-x snap-mandatory" style="-webkit-overflow-scrolling: touch;">
-                <!-- CARDS (Added snap-center) -->
+                <!-- Original 5 Cards -->
                 <div class="flex-shrink-0 w-[280px] md:w-[320px] menu-card snap-center">
                     <div class="spicy-border p-4 h-full relative group">
                         <div class="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-cyan-400"></div>
@@ -361,7 +361,7 @@
                         <div class="absolute top-0 left-0 w-full caution-tape z-20"></div>
                         <div class="flex justify-between items-center mb-2 border-b-2 border-red-600 pb-1 mt-4"><span class="font-bebas text-2xl text-red-600">NO.05</span><span class="text-xs font-black bg-red-600 text-white px-2 animate-pulse">DO NOT EAT</span></div>
                         <div class="aspect-[4/5] w-full bg-gray-900 mb-4 flex items-center justify-center border-2 border-red-600 overflow-hidden relative"><div class="absolute inset-0 flex items-center justify-center opacity-20 pointer-events-none"><span class="text-9xl">💀</span></div><div class="text-[7rem] transform animate-shiver filter drop-shadow-[0_0_10px_red]">🐙</div></div>
-                        <h3 class="font-anton text-4xl uppercase leading-none mb-1 text-white">TACO<br><span class="text-red-600">TORNADO</span></h3>
+                        <h3 class="font-anton text-4xl uppercase leading-none mb-1">TACO<br><span class="text-red-600">TORNADO</span></h3>
                         <div class="flex justify-between items-end mt-4 border-t-4 border-red-600 pt-2"><span class="font-bold text-xs bg-red-600 text-white px-1">PRICE</span><span class="font-anton text-3xl text-red-600 transform -rotate-2">¥ASK</span></div>
                     </div>
                 </div>
@@ -408,14 +408,7 @@
 
         menuBtn.addEventListener('click', (e) => { e.stopPropagation(); isMenuOpen = !isMenuOpen; isMenuOpen ? shortcutMenu.classList.add('open') : shortcutMenu.classList.remove('open'); });
         document.addEventListener('click', () => { if(isMenuOpen) { isMenuOpen = false; shortcutMenu.classList.remove('open'); } });
-        window.scrollToCard = (index) => { 
-            const container = document.getElementById('scrollContainer'); 
-            const cards = document.querySelectorAll('.menu-card'); 
-            if(cards[index]) { 
-                const cardWidth = cards[index].offsetWidth + 24; 
-                container.scrollTo({ left: cardWidth * index, behavior: 'smooth' }); 
-            } 
-        };
+        window.scrollToCard = (index) => { const container = document.getElementById('scrollContainer'); const cards = document.querySelectorAll('.menu-card'); if(cards[index]) { const cardWidth = cards[index].offsetWidth + 24; container.scrollTo({ left: cardWidth * index, behavior: 'smooth' }); } };
 
         document.addEventListener('DOMContentLoaded', () => {
             const container = document.getElementById('scrollContainer');
@@ -423,7 +416,18 @@
             let isUserInteracting = false;
             let interactionTimeout;
 
-            // Updated Scroll Logic for precise stepping
+            // --- INFINITE SCROLL SETUP ---
+            const setupInfiniteScroll = () => {
+                const originalCards = Array.from(container.querySelectorAll('.menu-card'));
+                // Clone cards to create loop buffer
+                originalCards.forEach(card => {
+                    const clone = card.cloneNode(true);
+                    container.appendChild(clone);
+                });
+            };
+            setupInfiniteScroll();
+
+            // --- AUTO SCROLL LOOP ---
             const startAutoScroll = () => {
                 if (scrollInterval) clearInterval(scrollInterval);
                 scrollInterval = setInterval(() => {
@@ -432,19 +436,33 @@
                     const card = container.querySelector('.menu-card');
                     if (!card) return;
                     
-                    const itemWidth = card.offsetWidth + 24; // Card width + gap (24px for gap-6)
+                    const itemWidth = card.offsetWidth + 24; // Width + gap
                     const currentScroll = container.scrollLeft;
-                    const maxScroll = container.scrollWidth - container.clientWidth;
                     
-                    // Calculate precise next index
-                    const currentIndex = Math.round(currentScroll / itemWidth);
-                    const nextScroll = (currentIndex + 1) * itemWidth;
+                    // Logic to jump back seamlessly if we are deep into the cloned section
+                    // We have 5 original cards. If we passed index 4, we might be at index 5 (first clone)
+                    // If we are at index 5 (start of clones), we can jump to index 0 (start of originals) instantly without user noticing
+                    // But to animate continuously, we check if we are at the end of originals
                     
-                    if (currentScroll >= maxScroll - 20) { 
-                        container.scrollTo({ left: 0, behavior: 'smooth' }); 
-                    } else { 
-                        container.scrollTo({ left: nextScroll, behavior: 'smooth' }); 
+                    const totalOriginalWidth = itemWidth * 5; 
+                    
+                    if (currentScroll >= totalOriginalWidth) {
+                        // If we are showing clones, snap back to original corresponding position instantly
+                        container.style.scrollBehavior = 'auto'; // Disable smooth for jump
+                        container.scrollLeft = currentScroll - totalOriginalWidth;
+                        // Force reflow
+                        container.offsetHeight; 
+                        container.style.scrollBehavior = 'smooth'; // Re-enable smooth
+                        
+                        // Then scroll to next
+                        const nextPos = container.scrollLeft + itemWidth;
+                        container.scrollTo({ left: nextPos, behavior: 'smooth' });
+                    } else {
+                        // Normal forward scroll
+                        const nextPos = currentScroll + itemWidth;
+                        container.scrollTo({ left: nextPos, behavior: 'smooth' });
                     }
+                    
                 }, 4500); 
             };
 
