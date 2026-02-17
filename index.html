@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RIOT CARNIVAL - EXTRA SPICY v27</title>
+    <title>RIOT CARNIVAL - EXTRA SPICY v28</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Zen+Kaku+Gothic+New:wght@700;900&family=Zen+Old+Mincho:wght@700;900&family=Mochiy+Pop+P+One&family=Outfit:wght@800&family=Reenie+Beanie&display=swap" rel="stylesheet">
     <style>
@@ -174,41 +174,42 @@
         }
         .animate-shiver { animation: shiver 0.2s infinite linear; }
 
-        /* --- MENU TITLE IMAGE ANIMATION (TWIST) --- */
-        /* Y軸回転でねじれる動き */
+        /* --- MENU TITLE IMAGE ANIMATION (WIDER TWIST) --- */
         @keyframes menu-twist {
-            0% { transform: rotate(2deg) rotateY(20deg); }
-            50% { transform: rotate(2deg) rotateY(-20deg); }
-            100% { transform: rotate(2deg) rotateY(20deg); }
+            /* 角度を大きく: 35deg */
+            0% { transform: rotate(2deg) rotateY(35deg); }
+            50% { transform: rotate(2deg) rotateY(-35deg); }
+            100% { transform: rotate(2deg) rotateY(35deg); }
         }
 
         .menu-title-container {
-            perspective: 800px; /* 3D遠近感の設定 */
-            margin-top: -30px; 
+            perspective: 800px;
+            /* マージン調整: 上にさらに食い込ませる */
+            margin-top: -50px; 
             margin-bottom: 20px;
             z-index: 20;
         }
         @media (max-width: 768px) {
             .menu-title-container {
-                margin-top: -20px;
+                margin-top: -30px;
                 margin-bottom: 10px;
             }
         }
 
         .menu-title-img {
-            height: 400px; /* PC */
+            /* サイズアップ */
+            height: 480px; /* PC: 400px -> 480px */
             width: auto;
             transition: filter 0.5s ease;
             filter: var(--img-drop-shadow);
             
-            /* 3D Twist Animation */
             transform-origin: center center;
-            /* ベースの角度(2deg)を保ちつつ、Y軸でパタパタする */
             animation: menu-twist 6s ease-in-out infinite; 
         }
         @media (max-width: 768px) {
             .menu-title-img {
-                height: 280px; /* Mobile */
+                /* Mobile: 280px -> 340px */
+                height: 340px; 
             }
         }
 
@@ -315,7 +316,7 @@
             <div class="container mx-auto px-4 mb-2 flex flex-col items-center">
                 <!-- 3D Perspective Container -->
                 <div class="relative menu-title-container">
-                    <!-- IMAGE: Today.PNG with TWIST Animation -->
+                    <!-- IMAGE: Today.PNG with WIDER TWIST Animation -->
                     <img src="Today.PNG" alt="本日のお品書き" class="menu-title-img">
                 </div>
             </div>
