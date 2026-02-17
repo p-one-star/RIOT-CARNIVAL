@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RIOT CARNIVAL - EXTRA SPICY v32</title>
+    <title>RIOT CARNIVAL - EXTRA SPICY v33</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Zen+Kaku+Gothic+New:wght@700;900&family=Zen+Old+Mincho:wght@700;900&family=Mochiy+Pop+P+One&family=Outfit:wght@800&family=Reenie+Beanie&display=swap" rel="stylesheet">
     <style>
@@ -239,12 +239,8 @@
         body.dark-mode .spicy-border { border: 2px solid var(--card-border); box-shadow: var(--neon-glow); }
         .spicy-border:active { transform: translate(3px, 3px); }
         
-        .warning-card { background-color: #000 !important; border-color: var(--spicy-red) !important; }
-        body.dark-mode .warning-card {
-            box-shadow: 0 0 30px var(--dark-red), inset 0 0 20px var(--dark-red) !important;
-            border: 2px solid #fff !important;
-        }
-        .warning-card h3 { color: white !important; }
+        /* WARNING CARD - now uses standard layout but keeps red text inside */
+        .warning-text { color: var(--spicy-red) !important; }
 
         .caution-tape {
             background: repeating-linear-gradient(45deg, var(--spicy-red), var(--spicy-red) 10px, var(--black) 10px, var(--black) 20px);
@@ -314,9 +310,9 @@
                 </div>
             </div>
 
-            <!-- Scroll Container -->
+            <!-- Removed trailing spacer to fix gap issue -->
             <div id="scrollContainer" class="flex gap-6 overflow-x-auto no-scrollbar px-6 pb-12 w-full scroll-smooth snap-x snap-mandatory" style="-webkit-overflow-scrolling: touch;">
-                <!-- Original 5 Cards -->
+                <!-- CARDS -->
                 <div class="flex-shrink-0 w-[280px] md:w-[320px] menu-card snap-center">
                     <div class="spicy-border p-4 h-full relative group">
                         <div class="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-cyan-400"></div>
@@ -356,16 +352,17 @@
                         <div class="flex justify-between items-end mt-4 border-t-4 border-current pt-2"><span class="font-bold text-xs bg-red-600 text-white px-1">PRICE</span><span class="font-anton text-3xl text-red-600 transform -rotate-2">¥ASK</span></div>
                     </div>
                 </div>
+                <!-- CARD 5 (STANDARDIZED STYLE) -->
                 <div class="flex-shrink-0 w-[280px] md:w-[320px] menu-card snap-center">
-                    <div class="spicy-border warning-card p-4 h-full relative group">
+                    <div class="spicy-border p-4 h-full relative group">
                         <div class="absolute top-0 left-0 w-full caution-tape z-20"></div>
-                        <div class="flex justify-between items-center mb-2 border-b-2 border-red-600 pb-1 mt-4"><span class="font-bebas text-2xl text-red-600">NO.05</span><span class="text-xs font-black bg-red-600 text-white px-2 animate-pulse">DO NOT EAT</span></div>
-                        <div class="aspect-[4/5] w-full bg-gray-900 mb-4 flex items-center justify-center border-2 border-red-600 overflow-hidden relative"><div class="absolute inset-0 flex items-center justify-center opacity-20 pointer-events-none"><span class="text-9xl">💀</span></div><div class="text-[7rem] transform animate-shiver filter drop-shadow-[0_0_10px_red]">🐙</div></div>
+                        <div class="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-cyan-400"></div>
+                        <div class="flex justify-between items-center mb-2 border-b-2 border-current pb-1"><span class="font-bebas text-2xl warning-text">NO.05</span><span class="text-xs font-black bg-red-600 text-white px-2 animate-pulse">DO NOT EAT</span></div>
+                        <div class="aspect-[4/5] w-full bg-gray-800 mb-4 flex items-center justify-center border-2 border-red-600 overflow-hidden relative"><div class="absolute inset-0 flex items-center justify-center opacity-20 pointer-events-none"><span class="text-9xl">💀</span></div><div class="text-[7rem] transform animate-shiver filter drop-shadow-[0_0_10px_red]">🐙</div></div>
                         <h3 class="font-anton text-4xl uppercase leading-none mb-1">TACO<br><span class="text-red-600">TORNADO</span></h3>
-                        <div class="flex justify-between items-end mt-4 border-t-4 border-red-600 pt-2"><span class="font-bold text-xs bg-red-600 text-white px-1">PRICE</span><span class="font-anton text-3xl text-red-600 transform -rotate-2">¥ASK</span></div>
+                        <div class="flex justify-between items-end mt-4 border-t-4 border-current pt-2"><span class="font-bold text-xs bg-red-600 text-white px-1">PRICE</span><span class="font-anton text-3xl text-red-600 transform -rotate-2">¥ASK</span></div>
                     </div>
                 </div>
-                <div class="flex-shrink-0 w-4 snap-center"></div>
             </div>
         </section>
 
@@ -416,10 +413,8 @@
             let isUserInteracting = false;
             let interactionTimeout;
 
-            // --- INFINITE SCROLL SETUP ---
             const setupInfiniteScroll = () => {
                 const originalCards = Array.from(container.querySelectorAll('.menu-card'));
-                // Clone cards to create loop buffer
                 originalCards.forEach(card => {
                     const clone = card.cloneNode(true);
                     container.appendChild(clone);
@@ -427,7 +422,6 @@
             };
             setupInfiniteScroll();
 
-            // --- AUTO SCROLL LOOP ---
             const startAutoScroll = () => {
                 if (scrollInterval) clearInterval(scrollInterval);
                 scrollInterval = setInterval(() => {
@@ -436,29 +430,19 @@
                     const card = container.querySelector('.menu-card');
                     if (!card) return;
                     
-                    const itemWidth = card.offsetWidth + 24; // Width + gap
+                    const itemWidth = card.offsetWidth + 24; 
                     const currentScroll = container.scrollLeft;
-                    
-                    // Logic to jump back seamlessly if we are deep into the cloned section
-                    // We have 5 original cards. If we passed index 4, we might be at index 5 (first clone)
-                    // If we are at index 5 (start of clones), we can jump to index 0 (start of originals) instantly without user noticing
-                    // But to animate continuously, we check if we are at the end of originals
-                    
                     const totalOriginalWidth = itemWidth * 5; 
                     
                     if (currentScroll >= totalOriginalWidth) {
-                        // If we are showing clones, snap back to original corresponding position instantly
-                        container.style.scrollBehavior = 'auto'; // Disable smooth for jump
+                        container.style.scrollBehavior = 'auto'; 
                         container.scrollLeft = currentScroll - totalOriginalWidth;
-                        // Force reflow
                         container.offsetHeight; 
-                        container.style.scrollBehavior = 'smooth'; // Re-enable smooth
+                        container.style.scrollBehavior = 'smooth'; 
                         
-                        // Then scroll to next
                         const nextPos = container.scrollLeft + itemWidth;
                         container.scrollTo({ left: nextPos, behavior: 'smooth' });
                     } else {
-                        // Normal forward scroll
                         const nextPos = currentScroll + itemWidth;
                         container.scrollTo({ left: nextPos, behavior: 'smooth' });
                     }
