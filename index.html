@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RIOT CARNIVAL - EXTRA SPICY v28</title>
+    <title>RIOT CARNIVAL - EXTRA SPICY v29</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Zen+Kaku+Gothic+New:wght@700;900&family=Zen+Old+Mincho:wght@700;900&family=Mochiy+Pop+P+One&family=Outfit:wght@800&family=Reenie+Beanie&display=swap" rel="stylesheet">
     <style>
@@ -176,7 +176,6 @@
 
         /* --- MENU TITLE IMAGE ANIMATION (WIDER TWIST) --- */
         @keyframes menu-twist {
-            /* 角度を大きく: 35deg */
             0% { transform: rotate(2deg) rotateY(35deg); }
             50% { transform: rotate(2deg) rotateY(-35deg); }
             100% { transform: rotate(2deg) rotateY(35deg); }
@@ -184,21 +183,21 @@
 
         .menu-title-container {
             perspective: 800px;
-            /* マージン調整: 上にさらに食い込ませる */
-            margin-top: -50px; 
-            margin-bottom: 20px;
+            /* マージン調整: さらに食い込ませる */
+            margin-top: -80px; 
+            margin-bottom: 30px;
             z-index: 20;
         }
         @media (max-width: 768px) {
             .menu-title-container {
-                margin-top: -30px;
-                margin-bottom: 10px;
+                margin-top: -50px;
+                margin-bottom: 20px;
             }
         }
 
         .menu-title-img {
-            /* サイズアップ */
-            height: 480px; /* PC: 400px -> 480px */
+            /* HUGE SIZE UPDATE */
+            height: 600px; /* PC: 480px -> 600px */
             width: auto;
             transition: filter 0.5s ease;
             filter: var(--img-drop-shadow);
@@ -208,8 +207,8 @@
         }
         @media (max-width: 768px) {
             .menu-title-img {
-                /* Mobile: 280px -> 340px */
-                height: 340px; 
+                /* Mobile: 340px -> 450px */
+                height: 450px; 
             }
         }
 
@@ -295,7 +294,7 @@
 
     <main class="container mx-auto pt-28 md:pt-36 relative z-10">
 
-        <!-- HERO SECTION -->
+        <!-- HERO SECTION (Gap reduced) -->
         <section class="relative px-2 mb-12 flex flex-col items-center text-center">
             <div class="relative w-full mb-8">
                 <h1 class="font-anton text-[20vw] md:text-[13rem] leading-[0.8] tracking-tighter festival-red-text relative z-10" data-text="RIOT CARNIVAL">RIOT<br>CARNIVAL</h1>
