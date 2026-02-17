@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RIOT CARNIVAL - EXTRA SPICY v36</title>
+    <title>RIOT CARNIVAL - EXTRA SPICY v45</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Zen+Kaku+Gothic+New:wght@700;900&family=Zen+Old+Mincho:wght@700;900&family=Mochiy+Pop+P+One&family=Outfit:wght@800&family=Reenie+Beanie&display=swap" rel="stylesheet">
     <style>
@@ -54,10 +54,10 @@
             
             /* Cards */
             --card-bg: #000000;
-            --card-border: #FF00FF;
+            --card-border: #ffffff;
             
             /* Neon Effects */
-            --neon-glow: 0 0 5px #FF00FF, 0 0 10px #FF00FF, 0 0 20px #FF00FF, 0 0 40px #FF0055;
+            --neon-glow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #FF00FF, 0 0 40px #FF0055;
             --text-glow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #FF00FF, 0 0 30px #FF00FF, 0 0 40px #FF00FF;
             
             /* Image Shadow (Night Glow) */
@@ -178,6 +178,14 @@
             0% { transform: rotate(2deg) rotateY(20deg); }
             50% { transform: rotate(2deg) rotateY(-20deg); }
             100% { transform: rotate(2deg) rotateY(20deg); }
+        }
+
+        @keyframes slot-spin {
+            0% { transform: rotateX(0deg); }
+            100% { transform: rotateX(360deg); }
+        }
+        .animate-slot-spin {
+            animation: slot-spin 4s linear infinite;
         }
 
         .menu-title-container {
@@ -314,6 +322,17 @@
             transform: scale(1.2);
             color: var(--spicy-red);
         }
+        
+        /* SCROLL OR DIE TEXT STYLE - MAXIMIZED */
+        .scroll-die-text {
+            color: var(--spicy-red);
+            text-shadow: 3px 3px 0 #000;
+            -webkit-text-stroke: 1px #000;
+        }
+        body.dark-mode .scroll-die-text {
+            text-shadow: 0 0 10px var(--spicy-red);
+            -webkit-text-stroke: 1px #fff;
+        }
     </style>
 </head>
 <body class="pb-20">
@@ -327,7 +346,7 @@
         <div class="absolute bottom-[20%] left-[15%] text-5xl opacity-10 animate-shiver" style="animation-delay: 0.2s;">⚡</div>
     </div>
 
-    <!-- SHUTTER ELEMENT (Hidden by default) -->
+    <!-- SHUTTER ELEMENT -->
     <div id="shutter" class="fixed top-0 left-0 w-full h-full z-[100] pointer-events-none transform -translate-y-full transition-transform duration-700 ease-in-out border-b-8 border-gray-600"></div>
 
     <!-- HEADER -->
@@ -375,14 +394,14 @@
                 </div>
             </div>
 
-            <div id="scrollContainer" class="flex gap-6 overflow-x-auto no-scrollbar px-6 pb-12 w-full scroll-smooth snap-x snap-mandatory" style="-webkit-overflow-scrolling: touch;">
-                <!-- CARDS (Same loop logic) -->
+            <!-- Scroll Container -->
+            <div id="scrollContainer" class="flex gap-6 overflow-x-auto no-scrollbar px-6 pb-12 w-full snap-x snap-mandatory" style="-webkit-overflow-scrolling: touch;">
+                <!-- CARDS -->
                 <div class="flex-shrink-0 w-[280px] md:w-[320px] menu-card snap-center">
                     <div class="spicy-border p-4 h-full relative group">
                         <div class="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-cyan-400"></div>
                         <div class="flex justify-between items-center mb-2 border-b-2 border-current pb-1"><span class="font-bebas text-2xl">NO.01</span><span class="text-xs font-black text-red-600 border border-red-600 px-1 bg-black text-white">SPICY</span></div>
                         <div class="aspect-[4/5] w-full bg-gray-800 mb-4 flex items-center justify-center border-2 border-current overflow-hidden relative isolate">
-                            <div class="absolute inset-0 bg-red-900 opacity-40"></div>
                             <div class="text-[7rem] transform group-hover:scale-110 transition-transform duration-100 filter drop-shadow-lg">🍔</div>
                         </div>
                         <h3 class="font-anton text-4xl uppercase leading-none mb-1">Mr.<br><span class="text-red-600">BURGER</span></h3>
@@ -416,56 +435,45 @@
                         <div class="flex justify-between items-end mt-4 border-t-4 border-current pt-2"><span class="font-bold text-xs bg-red-600 text-white px-1">PRICE</span><span class="font-anton text-3xl text-red-600 transform -rotate-2">¥ASK</span></div>
                     </div>
                 </div>
+                <!-- CARD 5: TAKO (UNIFIED) -->
                 <div class="flex-shrink-0 w-[280px] md:w-[320px] menu-card snap-center">
                     <div class="spicy-border warning-card p-4 h-full relative group">
                         <div class="absolute top-0 left-0 w-full caution-tape z-20"></div>
-                        <div class="flex justify-between items-center mb-2 border-b-2 border-red-600 pb-1 mt-4"><span class="font-bebas text-2xl warning-text">NO.05</span><span class="text-xs font-black bg-red-600 text-white px-2 animate-pulse">DO NOT EAT</span></div>
-                        <div class="aspect-[4/5] w-full bg-gray-900 mb-4 flex items-center justify-center border-2 border-red-600 overflow-hidden relative"><div class="absolute inset-0 flex items-center justify-center opacity-20 pointer-events-none"><span class="text-9xl">💀</span></div><div class="text-[7rem] transform animate-shiver filter drop-shadow-[0_0_10px_red]">🐙</div></div>
-                        <h3 class="font-anton text-4xl uppercase leading-none mb-1">TACO<br><span class="text-red-600">TORNADO</span></h3>
-                        <div class="flex justify-between items-end mt-4 border-t-4 border-red-600 pt-2"><span class="font-bold text-xs bg-red-600 text-white px-1">PRICE</span><span class="font-anton text-3xl text-red-600 transform -rotate-2">¥ASK</span></div>
+                        <div class="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-cyan-400"></div>
+                        <div class="flex justify-between items-center mb-2 border-b-2 border-current pb-1"><span class="font-bebas text-2xl warning-text" style="color: var(--spicy-red);">NO.05</span><span class="text-xs font-black bg-red-600 text-white px-2 animate-pulse">DO NOT EAT</span></div>
+                        <div class="aspect-[4/5] w-full bg-gray-800 mb-4 flex items-center justify-center border-2 border-current overflow-hidden relative"><div class="absolute inset-0 flex items-center justify-center opacity-20 pointer-events-none"><span class="text-9xl">💀</span></div><div class="text-[7rem] transform animate-shiver filter drop-shadow-[0_0_10px_red]">🐙</div></div>
+                        <h3 class="font-anton text-4xl uppercase leading-none mb-1 text-white">TACO<br><span class="text-red-600">TORNADO</span></h3>
+                        <div class="flex justify-between items-end mt-4 border-t-4 border-current pt-2"><span class="font-bold text-xs bg-red-600 text-white px-1">PRICE</span><span class="font-anton text-3xl text-red-600 transform -rotate-2">¥ASK</span></div>
                     </div>
                 </div>
             </div>
+            
+            <!-- SCROLL OR DIE MESSAGE (MAXIMIZED & CLOSER) -->
+            <div class="text-center mt-2 mb-0 pointer-events-none select-none relative z-10 -mt-10 w-full overflow-hidden">
+                <p class="scroll-die-text font-anton leading-none tracking-widest animate-slot-spin transform skew-x-[-12deg] w-full" style="font-size: 13vw; white-space: nowrap;">
+                    SCROLL OR DIE
+                </p>
+            </div>
         </section>
 
-        <!-- FOOTER (RIOT STYLE RESTORED + FUNCTIONALITY) -->
-        <footer class="mt-32 text-center pb-20 relative overflow-hidden">
+        <!-- FOOTER (REDUCED MARGIN) -->
+        <footer class="mt-10 text-center pb-20 relative overflow-hidden">
             <div class="cyan-line w-full mb-12"></div>
-            
             <div class="relative w-full">
-                <!-- HUGE BACKGROUND TEXT -->
-                <p class="footer-riot-text text-5xl md:text-9xl transform skew-x-12 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full">
-                    FHW PEPPER LINK
-                </p>
-                
-                <!-- FOREGROUND CONTROLS -->
+                <p class="footer-riot-text text-5xl md:text-9xl transform skew-x-12 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full">FHW PEPPER LINK</p>
                 <div class="relative z-10 flex flex-col items-center gap-8 py-10">
-                    
-                    <!-- Back Button (Sticker Style - No EXIT) -->
                     <button id="backBtn" class="footer-back-btn">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
                         <span>BACK TO FHW</span>
                     </button>
-
-                    <!-- Social Icons -->
                     <div class="flex gap-8">
-                        <a href="#" class="footer-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
-                        </a>
-                        <a href="#" class="footer-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg>
-                        </a>
+                        <a href="#" class="footer-icon"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>
+                        <a href="#" class="footer-icon"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg></a>
                     </div>
-
-                    <!-- Copyright (Original) -->
                     <div class="bg-black text-white px-4 py-1 transform -rotate-1 mt-4 border border-gray-700">
                         <p class="font-bebas tracking-widest text-lg">RIOT CARNIVAL © 202X</p>
                     </div>
-                    
-                    <!-- NEW COPYRIGHT -->
-                    <p class="text-xs font-outfit tracking-widest mt-2 opacity-50 font-bold" style="color: var(--text-color);">
-                        © FUNKY HOTDOG WORKS
-                    </p>
+                    <p class="text-xs font-outfit tracking-widest mt-2 opacity-50 font-bold" style="color: var(--text-color);">© FUNKY HOTDOG WORKS</p>
                 </div>
             </div>
         </footer>
@@ -505,15 +513,11 @@
         document.addEventListener('click', () => { if(isMenuOpen) { isMenuOpen = false; shortcutMenu.classList.remove('open'); } });
         window.scrollToCard = (index) => { const container = document.getElementById('scrollContainer'); const cards = document.querySelectorAll('.menu-card'); if(cards[index]) { const cardWidth = cards[index].offsetWidth + 24; container.scrollTo({ left: cardWidth * index, behavior: 'smooth' }); } };
 
-        // Shutter Logic
         backBtn.addEventListener('click', (e) => {
             e.preventDefault();
             shutter.classList.remove('-translate-y-full');
             setTimeout(() => { shutter.classList.add('closed'); }, 600);
-            setTimeout(() => {
-                if (document.referrer) { window.location.href = document.referrer; } 
-                else { window.history.back(); }
-            }, 1200);
+            setTimeout(() => { if (document.referrer) { window.location.href = document.referrer; } else { window.history.back(); } }, 1200);
         });
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -524,10 +528,8 @@
 
             const setupInfiniteScroll = () => {
                 const originalCards = Array.from(container.querySelectorAll('.menu-card'));
-                originalCards.forEach(card => {
-                    const clone = card.cloneNode(true);
-                    container.appendChild(clone);
-                });
+                originalCards.forEach(card => container.appendChild(card.cloneNode(true)));
+                originalCards.forEach(card => container.appendChild(card.cloneNode(true)));
             };
             setupInfiniteScroll();
 
