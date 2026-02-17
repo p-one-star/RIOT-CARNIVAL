@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RIOT CARNIVAL - EXTRA SPICY v23</title>
+    <title>RIOT CARNIVAL - EXTRA SPICY v24</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Zen+Kaku+Gothic+New:wght@700;900&family=Zen+Old+Mincho:wght@700;900&family=Mochiy+Pop+P+One&family=Outfit:wght@800&family=Reenie+Beanie&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Zen+Kaku+Gothic+New:wght@700;900&family=Mochiy+Pop+P+One&family=Outfit:wght@800&family=Reenie+Beanie&display=swap" rel="stylesheet">
     <style>
         /* --- CORE SETTINGS --- */
         :root {
-            /* DAY MODE (Based on v19's Dark Mode) */
+            /* DAY MODE */
             --bg-base: #1a1a1a;
             --text-color: #f0f0f0;
             --spicy-red: #ff3333;
@@ -31,9 +31,12 @@
             /* Effects */
             --neon-glow: none;
             --text-glow: 4px 4px 0px #fff, 0px 0px 20px var(--spicy-red);
+            
+            /* Image Shadow (Day) */
+            --img-drop-shadow: drop-shadow(2px 4px 6px rgba(0,0,0,0.5));
         }
 
-        /* NIGHT MODE (Neon Gori-Gori) */
+        /* NIGHT MODE */
         body.dark-mode {
             --bg-base: #050505;
             --text-color: #ffffff;
@@ -56,6 +59,9 @@
             /* Neon Effects */
             --neon-glow: 0 0 5px #FF00FF, 0 0 10px #FF00FF, 0 0 20px #FF00FF, 0 0 40px #FF0055;
             --text-glow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #FF00FF, 0 0 30px #FF00FF, 0 0 40px #FF00FF;
+            
+            /* Image Shadow (Night Glow) */
+            --img-drop-shadow: drop-shadow(0 0 10px rgba(255, 255, 0, 0.6));
         }
 
         body {
@@ -105,7 +111,6 @@
         /* --- TYPOGRAPHY --- */
         .font-anton { font-family: 'Anton', sans-serif; }
         .font-bebas { font-family: 'Bebas Neue', cursive; }
-        .font-mincho { font-family: 'Zen Old Mincho', serif; }
         .font-pop { font-family: 'Mochiy Pop P One', sans-serif; }
         .font-outfit { font-family: 'Outfit', sans-serif; }
         .font-hand { font-family: 'Reenie Beanie', cursive; }
@@ -190,31 +195,18 @@
         .playful-char { display: inline-block; transition: transform 0.2s ease; }
         .playful-char:hover { transform: translateY(-5px) rotate(0deg) !important; color: var(--spicy-red); text-shadow: 0 0 10px var(--spicy-red); }
 
-        /* --- HINOKI BOARD (SLIM) --- */
-        .hinoki-board {
-            writing-mode: vertical-rl; text-orientation: upright;
-            background-color: #F3E6C8; 
-            background-image: repeating-linear-gradient(90deg, rgba(160, 120, 60, 0.05) 0px, rgba(160, 120, 60, 0.05) 1px, transparent 1px, transparent 10px);
-            padding: 1.5rem 0.8rem;
-            box-shadow: 0 0 15px rgba(255, 235, 59, 0.2); border: 1px solid rgba(255,255,255,0.1);
-            position: relative; border-radius: 2px;
-            display: inline-block; 
-            transition: all 0.5s;
+        /* --- MENU TITLE IMAGE --- */
+        .menu-title-img {
+            height: 160px; /* PC default */
+            width: auto;
+            transition: filter 0.5s ease;
+            filter: var(--img-drop-shadow);
         }
-        body.dark-mode .hinoki-board { 
-            background-color: #222;
-            border: 2px solid var(--festival-yellow);
-            box-shadow: 0 0 20px var(--festival-yellow), inset 0 0 10px var(--festival-yellow);
-            color: #fff;
+        @media (max-width: 768px) {
+            .menu-title-img {
+                height: 120px; /* Mobile */
+            }
         }
-        .hinoki-text { 
-            color: #1a1a1a; 
-            text-shadow: 0 0 1px rgba(0,0,0,0.2); 
-            transition: color 0.5s;
-            white-space: nowrap; 
-            line-height: 1; 
-        }
-        body.dark-mode .hinoki-text { color: #fff; text-shadow: 0 0 5px #fff, 0 0 10px var(--festival-yellow); }
 
         /* --- CARDS --- */
         .spicy-border {
@@ -297,11 +289,8 @@
         <section class="relative py-4 w-full">
             <div class="container mx-auto px-4 mb-10 flex flex-col items-center">
                 <div class="relative">
-                    <div class="hinoki-board transform rotate-2">
-                        <h2 id="menuTitle" class="font-mincho font-black text-4xl md:text-5xl hinoki-text tracking-widest py-2">
-                            本日のお品書き
-                        </h2>
-                    </div>
+                    <!-- REPLACED: Image Title -->
+                    <img src="Today.PNG" alt="本日のお品書き" class="menu-title-img transform rotate-2">
                 </div>
             </div>
 
@@ -311,7 +300,6 @@
                     <div class="spicy-border p-4 h-full relative group">
                         <div class="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-cyan-400"></div>
                         <div class="flex justify-between items-center mb-2 border-b-2 border-current pb-1"><span class="font-bebas text-2xl">NO.01</span><span class="text-xs font-black text-red-600 border border-red-600 px-1 bg-black text-white">SPICY</span></div>
-                        <!-- Removed Onsen Mark -->
                         <div class="aspect-[4/5] w-full bg-gray-800 mb-4 flex items-center justify-center border-2 border-current overflow-hidden relative isolate">
                             <div class="absolute inset-0 bg-red-900 opacity-40"></div>
                             <div class="text-[7rem] transform group-hover:scale-110 transition-transform duration-100 filter drop-shadow-lg">🍔</div>
@@ -320,7 +308,6 @@
                         <div class="flex justify-between items-end mt-4 border-t-4 border-current pt-2"><span class="font-bold text-xs bg-red-600 text-white px-1">PRICE</span><span class="font-anton text-3xl text-red-600 transform -rotate-2">¥ASK</span></div>
                     </div>
                 </div>
-                <!-- ... other cards ... -->
                 <div class="flex-shrink-0 w-[280px] md:w-[320px] menu-card">
                     <div class="spicy-border p-4 h-full relative group">
                         <div class="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-cyan-400"></div>
@@ -396,7 +383,6 @@
             langBtn.innerText = current.btn;
             textElements.jpCopy.setAttribute('data-text', current.copy);
             makePlayful('japaneseCopy');
-            // ヒノキプレートのテキスト（本日のお品書き）は変更しない
         });
 
         menuBtn.addEventListener('click', (e) => { e.stopPropagation(); isMenuOpen = !isMenuOpen; isMenuOpen ? shortcutMenu.classList.add('open') : shortcutMenu.classList.remove('open'); });
@@ -409,41 +395,26 @@
             let isUserInteracting = false;
             let interactionTimeout;
 
-            // 自動スクロール開始関数 (間隔を 4500ms に延長)
             const startAutoScroll = () => {
                 if (scrollInterval) clearInterval(scrollInterval);
                 scrollInterval = setInterval(() => {
-                    // ホバー中やタッチ操作直後は動かさない
                     if (isUserInteracting) return;
-                    
                     const currentScroll = container.scrollLeft;
                     const maxScroll = container.scrollWidth - container.clientWidth;
                     const step = 250; 
                     let nextScroll = currentScroll + step;
-                    
                     if (currentScroll >= maxScroll - 20) { container.scrollTo({ left: 0, behavior: 'auto' }); } 
                     else { container.scrollTo({ left: nextScroll, behavior: 'smooth' }); }
-                }, 4500); // 4.5秒間隔
+                }, 4500); 
             };
 
-            // ホバー用: マウスが乗ったら停止、外れたら再開
-            container.addEventListener('mouseenter', () => {
-                isUserInteracting = true;
-                // タイマーによる再開予約があればキャンセル（ホバー優先）
-                if(interactionTimeout) clearTimeout(interactionTimeout);
-            });
+            container.addEventListener('mouseenter', () => { isUserInteracting = true; if(interactionTimeout) clearTimeout(interactionTimeout); });
+            container.addEventListener('mouseleave', () => { isUserInteracting = false; });
 
-            container.addEventListener('mouseleave', () => {
-                isUserInteracting = false;
-            });
-
-            // タッチ操作用: 触ったら停止、操作終了3秒後に再開
             const handleTouchInteraction = () => {
                 isUserInteracting = true;
                 if(interactionTimeout) clearTimeout(interactionTimeout);
-                interactionTimeout = setTimeout(() => {
-                    isUserInteracting = false;
-                }, 3000);
+                interactionTimeout = setTimeout(() => { isUserInteracting = false; }, 3000);
             };
 
             container.addEventListener('touchstart', handleTouchInteraction, {passive: true});
